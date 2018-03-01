@@ -67,3 +67,4 @@ modules.xml
 # End of https://www.gitignore.io/api/pycharm+iml
 .venv
 .idea
+.python-version
