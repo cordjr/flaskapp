@@ -1,6 +1,7 @@
 from flask_script import Manager
-from app import app, db
+from wfdb import create_app
 
+app = create_app('wtfb.config.DevConfig')
 manager = Manager(app)
 
 
@@ -12,7 +13,7 @@ def make_shell_context():
     :return:
     """
     return dict(app=app, db=db)
+
+
 if __name__ == '__main__':
     manager.run()
-
-

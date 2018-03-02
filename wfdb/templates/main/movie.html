@@ -8,7 +8,7 @@
             <h1>{{ movie.name }}</h1>
             <p><strong>Release Date</strong> {{ movie.release_date }}</p>
             <p><strong>Director</strong>
-              <a href="{{ url_for('.main.actor', actor_id=movie.director.id) }}">
+              <a href="{{ url_for('main.actor', actor_id=movie.director.id) }}">
                 {{ movie.director.first_name }} {{ movie.director.last_name }}
               </a>
             </p>
@@ -38,7 +38,7 @@
                 <tbody>
                     {% for role in movie.cast %}
                     <tr>
-                        <td><a href="{{ url_for('.main.actor', actor_id=role.actor.id) }}">{{ role.actor.first_name }} {{ role.actor.last_name }}</a></td>
+                        <td><a href="{{ url_for('main.actor', actor_id=role.actor.id) }}">{{ role.actor.first_name }} {{ role.actor.last_name }}</a></td>
                         <td>{{ role.role_name }}</td>
                     </tr>
                     {% endfor %}
