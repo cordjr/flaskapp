@@ -1,8 +1,8 @@
 from flask import render_template, Blueprint
+from flask_login import login_user
 
-from wfdb.models import Actor, Movie, User
 from wfdb.forms import FormLogin
-from flask_login import login_user, logout_user, login_required
+from wfdb.models import Actor, Movie, User
 
 main_blueprint = Blueprint('main',
                            __name__,
@@ -32,10 +32,11 @@ def movie(movie_id):
     movie = Movie.query.get_or_404(movie_id)
 
     return render_template("movie.html", movie=movie)
-@main_blueprint.route("/loging", methods=["GET", "POST"])
+
+
+@main_blueprint.route("/login", methods=["GET", "POST"])
 def login():
     form = FormLogin()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data)
         login_user(user)
-
