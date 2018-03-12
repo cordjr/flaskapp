@@ -35,6 +35,9 @@ class User(db.Model, UserMixin):
 
     def check_password(self, value):
         return check_password_hash(self._password, value)
+    @property
+    def is_active(self):
+        return self.active
 
     def __repr__(self):
         return f"<User({self.username})"

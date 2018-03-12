@@ -41,10 +41,10 @@ def movie(movie_id):
 def login():
     form = FormLogin()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data)
+        user = User.query.filter_by(username=form.username.data).first()
         login_user(user)
         flash("Logged with success!!", "success")
-        return render_template(request.args.get("next") or url_for(".home"))
+        return redirect(request.args.get("next") or url_for(".home"))
 
     return render_template("login.html", form=form)
 
