@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField, PasswordField
+from wtforms import TextAreaField, PasswordField, StringField
 from wtforms import validators
+
 from wfdb.models import User
 
 
@@ -12,8 +13,8 @@ class CommentForm(FlaskForm):
 
 
 class FormLogin(FlaskForm):
-    username = TextAreaField('Username', validators=[validators.DataRequired()])
-    password = PasswordField('Password', validators=[validators.DataRequired()])
+    username = StringField('Username', validators=[validators.DataRequired(), validators.Length(max=255)])
+    password = PasswordField('Password', validators=[validators.DataRequired(), validators.Length(min=8)])
 
     def validate(self):
         check_validate = super(FormLogin, self).validate()
@@ -28,3 +29,28 @@ class FormLogin(FlaskForm):
             self.password.errors.append("Invalid password")
             return False
         return True
+
+class RegisterForm(FlaskForm):
+    username = StringField('Username', validators=[validators.DataRequired(),
+                                                     validators.Length(max=255)])
+    password = PasswordField('Password', validators=[validators.DataRequired(),
+                                                     validators.Length(min=8)])
+    confirm = PasswordField('Confirm', validators=[validators.DataRequired(),
+                                                     validators.equal_to('password')])
+
+    def validate(self):
+        check_validate = super(FormLogin, self).validate()
+        if not check_validate:
+            return False
+
+        user = User.query.filter_by(username=self.username.data).first()
+
+        if user:
+            self.username.errors.append('User with that name already exists')
+            return False
+        return True
+
+
+
+
+

@@ -1,8 +1,10 @@
 import datetime
 
 from flask import render_template, Blueprint
+from flask_login import login_required
 
 from wfdb.models import Post, db, Comment, User
+
 
 
 
@@ -15,6 +17,7 @@ blog_blueprint = Blueprint('blog',
 
 
 @blog_blueprint.route("/")
+@login_required
 def blog():
     posts = Post.query.order_by(Post.publish_date.desc()).all()
 
@@ -22,6 +25,7 @@ def blog():
 
 
 @blog_blueprint.route("/<int:post_id>", methods=["GET", "POST"])
+@login_required
 def post(post_id):
     post = Post.query.get_or_404(post_id)
 
